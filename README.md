@@ -49,9 +49,10 @@ Develop an **Extended Kalman Filter (EKF)** using **pseudorange and Doppler meas
 **Objective**: Process the IF data using a GNSS SDR and generate the initial acquisition results.
 
 **Steps**:
-1. Process the IF data using GNSS SDR software.
-2. Generate acquisition results, including detected satellite signals and corresponding Doppler shifts.
-
+1. Read IF data from open-sky and urban dataset.
+2. Display the details of the original data of different databases from time domain, frequency domain and histogram.
+3. Display the correlation peak of acquisition.
+4. Display the acquisition result of different satellite.
 **Results**:
 - Acquisition results plot (insert image here).
 
