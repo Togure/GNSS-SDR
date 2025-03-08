@@ -44,3 +44,72 @@ Develop an **Extended Kalman Filter (EKF)** using **pseudorange and Doppler meas
 
 
 # Solution
+
+## Task 1 – Signal Acquisition
+**Objective**: Process the IF data using a GNSS SDR and generate the initial acquisition results.
+
+**Steps**:
+1. Process the IF data using GNSS SDR software.
+2. Generate acquisition results, including detected satellite signals and corresponding Doppler shifts.
+
+**Results**:
+- Acquisition results plot (insert image here).
+
+---
+
+## Task 2 – Signal Tracking
+**Objective**: Adapt the tracking loop (DLL) to generate correlation plots and analyze tracking performance. Discuss the impact of urban interference on correlation peaks.
+
+**Steps**:
+1. Implement multiple correlators to plot the correlation function.
+2. Generate correlation plots and analyze the impact of multipath effects on correlation peaks.
+
+**Results**:
+- Correlation plots (insert image here).
+- Discussion on the impact of urban interference on correlation peaks.
+
+---
+
+## Task 3 – Navigation Data Decoding
+**Objective**: Decode the navigation message and extract key parameters, such as ephemeris data, for at least one satellite.
+
+**Steps**:
+1. Decode the navigation message.
+2. Extract ephemeris data.
+
+**Results**:
+- Decoded navigation message (insert image here).
+- Extracted ephemeris data (insert image here).
+
+---
+
+## Task 4 – Position and Velocity Estimation
+**Objective**: Use pseudorange measurements from tracking to implement the Weighted Least Squares (WLS) algorithm and compute the user's position and velocity.
+
+**Steps**:
+1. Implement the WLS algorithm.
+2. Plot the user's position and velocity.
+3. Compare the results with the ground truth.
+4. Discuss the impact of multipath effects on the WLS solution.
+
+**Results**:
+- User position and velocity plots (insert image here).
+- Comparison of WLS results with ground truth (insert image here).
+- Discussion on the impact of multipath effects on the WLS solution.
+
+---
+
+## Task 5 – Kalman Filter-Based Positioning
+**Objective**: Develop an Extended Kalman Filter (EKF) using pseudorange and Doppler measurements to estimate the user's position and velocity.
+
+**Steps**:
+1. Implement the EKF algorithm.
+2. Estimate the user's position and velocity.
+
+**Results**:
+- EKF-based position and velocity plots (insert image here).
+
+---
+
+## Conclusion
+Summarize the key findings and results of the assignment. Discuss the impact of different environments (open-sky vs. urban) on GNSS signal processing, particularly the effects of multipath and NLOS on positioning accuracy.
