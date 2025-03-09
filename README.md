@@ -69,9 +69,11 @@ In the frequency domain, the frequency domain representation of the IF signal Fi
 
 By applying the Inverse Fast Fourier Transform (IFFT) to the frequency domain product, the result is converted back to the time domain, yielding the correlation function. The peak position of the correlation function indicates the optimal alignment time between the signal and the PRN code, thereby determining the code phase. Fig.1.1.(f) is the correlation plot of 58000 samples and 28 search frequency bins for i-th PRN code. Fig.1.1.(g) records the peak value of the i-th PRN correlation plot.
 
-Note that these method are used to ensure the reliability and robustness of the results.:
+<u>Note that these method are used to ensure the reliability and robustness of the results:
+
 (1) To ensure the accuracy of the correlation peak and avoid errors introduced by noise, we selected two adjacent 1 ms segments (PRN code duration) from the received signal and performed the operation described in Figure 1(e) simultaneously. Then, each element in Figure 1(f) is assigned the maximum correlation coefficient from the two segments. 
-(2) In addition to identifying the maximum correlation peak, we also searched for the second-largest correlation peak. If the ratio of the maximum correlation peak to the second-largest correlation peak satisfies Pmax_1/Pmax_2>1.5, and the two peaks are not too close to each other, the maximum correlation peak is considered meaningful, and the corresponding satellite is successfully acquired. Fig.1.2 shows the difference of the correlation peak of acquired and not acquired satellite.
+(2) In addition to identifying the maximum correlation peak, we also searched for the second-largest correlation peak. If the ratio of the maximum correlation peak to the second-largest correlation peak satisfies Pmax_1/Pmax_2>1.5, and the two peaks are not too close to each other, the maximum correlation peak is considered meaningful, and the corresponding satellite is successfully acquired. Fig.1.2 shows the difference of the correlation peak of acquired and not acquired satellite.<u>
+
 ![Fig.1.2 The difference of the correlation peak of acquired and not acquired satellite](https://github.com/Togure/GNSS-SDR/blob/main/figues/1.2.jpg)
 Fig.1.2 The difference of the correlation peak of acquired and not acquired satellite
 
