@@ -96,28 +96,97 @@ In the open sky dataset, satellite 16,22,26,27,31 can be acquired.
 
 
 ## Task 2 – Signal Tracking
-**Objective**: Adapt the tracking loop (DLL) to generate correlation plots and analyze tracking performance. Discuss the impact of urban interference on correlation peaks.
 
-**Steps**:
-1. Implement multiple correlators to plot the correlation function.
-2. Generate correlation plots and analyze the impact of multipath effects on correlation peaks.
+### **Objective**: Adapt the tracking loop (DLL) to generate correlation plots and analyze tracking performance. Discuss the impact of urban interference on correlation peaks.
+
+### **Steps**:
+The tracking loop in GNSS signal processing is a critical component of the receiver, used to precisely track the carrier frequency and pseudo-random code phase of satellite signals. The tracking loop typically consists of two main parts: the carrier tracking loop (PLL) and the code tracking loop (DLL). The carrier tracking loop is responsible for tracking the carrier frequency and phase of the signal, while the code tracking loop tracks the phase of the pseudo-random code.
+
+**Step 1: Tracking Process and Components:**
+
+During the tracking process, the receiver first down-converts the input signal and performs correlation calculations based on the initial carrier frequency and code phase information obtained during the acquisition phase. The down-conversion process brings the signal to the baseband, and the correlator calculates the correlation between the signal and the locally generated pseudo-random code. The correlator outputs are divided into multiple branches, typically including Early, Prompt, and Late branches, which are used to calculate the code phase error. The carrier tracking loop adjusts the frequency and phase of the local carrier by calculating the phase error of the signal to maintain synchronization with the received signal. Specificilly,  codeError = (sqrt(I_E * I_E + Q_E * Q_E) - sqrt(I_L * I_L + Q_L * Q_L)) / (sqrt(I_E * I_E + Q_E * Q_E) + sqrt(I_L * I_L + Q_L * Q_L)), which indicates the carrier frequency drift.
+
+
+**Step 2: Feedback Control and Real-Time Adjustment:**
+
+The core of the tracking loop lies in its feedback control mechanism, which continuously adjusts the locally generated carrier and pseudo-random code to align with the received signal. The error signals are smoothed by loop filters to reduce noise impact and generate control signals to adjust the local oscillator and code generator. This process operates in real-time, typically updated at millisecond intervals, to ensure tracking accuracy and stability.
+
+**Step 3: Design Considerations and Applications:**
+
+The design of the tracking loop must consider multiple factors, such as loop bandwidth and damping ratio, which directly affect the dynamic performance and noise resistance of the loop. By appropriately setting these parameters, stable tracking performance can be maintained in dynamic environments and under noise interference. Ultimately, the carrier frequency, code phase, and other information output by the tracking loop are used for subsequent navigation calculations to determine the receiver's position, velocity, and time.
+
 
 **Results**:
-- Correlation plots (insert image here).
-- Discussion on the impact of urban interference on correlation peaks.
+![Fig.1.3 The result of acquisition results of urban and opensky dataset.](https://github.com/Togure/GNSS-SDR/blob/main/figues/2.1.jpg)  
+
+Fig.2.1.(a) The correlation result of open sky dataset.
+
+Fig.2.1.(b) shows the correlation plots and analyzes tracking performance in an open sky area. As time changes, the correlation results vary little, with the raw DLL discriminator and filtered DLL maintaining around 0, showing no significant change. 
+
+![Fig.1.3 The result of acquisition results of urban and opensky dataset.](https://github.com/Togure/GNSS-SDR/blob/main/figues/2.2.jpg)  
+
+Fig.2.2.(b) The correlation result of open sky dataset.
+
+Fig.2.2.(b) presents the correlation plots and analyzes tracking performance in an urban area. As time changes, the correlation results fluctuate, with the filtered DLL discriminator approximately at -2.5. Fig.2.2.(a) and Fig.2.1.(a) show the average correlation results of different channels within 20 seconds. The magnitudes of the early and late signals differ little.
+
+![Fig.1.3 The result of acquisition results of urban and opensky dataset.](https://github.com/Togure/GNSS-SDR/blob/main/figues/2.3.jpg)  
+
+Fig.2.3 The correlation result of open sky dataset.
+
+
+In order to discuss the impact of urban multipath on the correlation peak, we used different early-late offset correlators with a step size of 0.01 chips. The results are shown in Fig.2.2.
 
 ---
 
 ## Task 3 – Navigation Data Decoding
-**Objective**: Decode the navigation message and extract key parameters, such as ephemeris data, for at least one satellite.
+### **Objective**: Decode the navigation message and extract key parameters, such as ephemeris data, for at least one satellite.
 
-**Steps**:
-1. Decode the navigation message.
-2. Extract ephemeris data.
+### **Steps**:
+After the tracking step in GNSS signal processing, the receiver successfully locks onto the satellite signal and demodulates the navigation data bitstream. The next critical step is the extraction and compilation of ephemeris data, which is essential for position calculation. Below is a brief overview of how ephemeris information is compiled:
 
-**Results**:
-- Decoded navigation message (insert image here).
-- Extracted ephemeris data (insert image here).
+**Step 1: Navigation Data Frame Decoding:**
+
+Navigation data is transmitted in fixed-format frames and subframes. Each subframe contains specific information, such as time, satellite status, and ephemeris data.
+The receiver identifies the start of each subframe from the demodulated bitstream and decodes the data according to the protocol (e.g., the GPS L1 C/A signal protocol). Corresponding to the I_P in the trackresults.
+
+![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/3.2.jpg)  
+
+Fig.3.1 Bits of navigation message
+
+**Step 2: Ephemeris Data Extraction:**
+
+Ephemeris data is typically distributed across multiple subframes. For example, in GPS, ephemeris information is located in Subframe 2 and Subframe 3.
+The receiver extracts ephemeris parameters from these subframes, including orbital parameters (e.g., semi-major axis, eccentricity, inclination) and time correction parameters.
+
+**Step 3: Data Validation and Error Correction:**
+
+Navigation data includes parity bits (e.g., parity check) to detect transmission errors.
+If errors are detected, the receiver can correct them using error correction algorithms or by waiting for the next frame of data.
+
+**Step 4: Ephemeris Information Compilation:**
+
+The extracted ephemeris parameters are compiled into a format used internally by the receiver to calculate the satellite's position and velocity.
+These parameters are typically stored as Keplerian orbital elements and combined with time information to predict the satellite's precise position.
+
+### **Results**:
+
+We take PRN16 in the open sky dataset as an example to analyze the ephemeris information
+
+Table 1 Ephemeris information of PRN 16.
+
+| Parameters                  | Remark                                                                 | Value                     |
+|-----------------------------|------------------------------------------------------------------------|---------------------------|
+| weekNumber                  | The week number of the satellite's launch, which determines the timeliness of the data. | 1155                      |
+| IODE_sf2 / IODE_sf3        | Issue of Data for Ephemeris, which ensures that the most recent ephemeris data is used. |    9                      |
+| e (Eccentricity)                  | Describes the shape of the satellite's orbit, influencing position calculations.| 0.0122962790774181    |
+| sqrtA (Square Root of Semi-Major Axis) | The shape of the satellite's orbit, influencing position calculations. | 5153.77132225037       |
+| M_0 (Mean Anomaly at Reference Time) | Used to calculate the satellite's position in its orbit, directly affecting its altitude. | 0.718116855169473       |
+| i_0 (Inclination Angle)    | Describes the tilt of the satellite's orbit, affecting visibility.    | 0.971603403113095      |
+| omega_0 (Longitude of Ascending Node) | The initial position of the satellite's orbit, influencing orbit calculations. | -1.67426142885170       |
+| omega (Argument of Perigee) | Describes the rotation of the satellite's orbit, affecting position changes. | 0.679609496852005      |
+| omegaDot (Rate of Change of the Argument of Perigee) | Describes the dynamic characteristics of the orbit, impacting precise positioning. | -8.01283376668916e-09     |
+| T_GD (Time Group Delay)    | Corrects the delay between the satellite clock and standard time, ensuring time accuracy. | -1.02445483207703e-08      |
+
 
 ---
 
