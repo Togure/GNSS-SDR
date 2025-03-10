@@ -1,4 +1,3 @@
-# GNSS-SDR
 assignment for AAE6102
 
 # AAE6102 Assignment 1
@@ -193,16 +192,59 @@ Table 1 Ephemeris information of PRN 16.
 ## Task 4 – Position and Velocity Estimation
 **Objective**: Use pseudorange measurements from tracking to implement the Weighted Least Squares (WLS) algorithm and compute the user's position and velocity.
 
-**Steps**:
-1. Implement the WLS algorithm.
-2. Plot the user's position and velocity.
-3. Compare the results with the ground truth.
-4. Discuss the impact of multipath effects on the WLS solution.
+**Step 1: Problem Description**
+
+Using pseudorange measurements from satellite tracking, implement the Weighted Least Squares (WLS) algorithm to compute the user's position and velocity. Plot the results, compare them with ground truth, and analyze the impact of multipath effects on the WLS solution.
+
+
+**Step 2: Data Preparation**
+
+Collect pseudorange measurements from satellite tracking. Obtain satellite positions and velocities. Acquire ground truth data for user position and velocity. Construct the weight matrix based on measurement uncertainties.
+
+
+**Step 3: WLS Algorithm Implementation**
+
+*Position Estimation*: Linearize the pseudorange observation equations. Use WLS to iteratively solve for user position and clock bias until convergence.
+
+*Velocity Estimation*: Linearize the Doppler observation equations, use WLS to iteratively solve for user velocity and clock drift until convergence.
+
+In the WLS, we consider the elevation as the weights coefficient to use WLS, i.e.
+
+```matlab
+weight(i) = sin(el(i))^2;
+......
+W = diag(weight)；
+C = W'*W;
+x = (A'*C*A)\(A'*C*omc);
+......
+
+```
+
+**Step 4: Plot Results**
+
+Plot the estimated user position and velocity over time, and overlay the ground truth data for comparison.
+
+
+**Step 5: Compare Results**
+
+Calculate the Root Mean Square Error (RMSE) for position and velocity, and analyze the deviations between estimated values and ground truth.
 
 **Results**:
-- User position and velocity plots (insert image here).
-- Comparison of WLS results with ground truth (insert image here).
-- Discussion on the impact of multipath effects on the WLS solution.
+
+![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/4.1.jpg)  
+
+Fig.4.1 is the result of open sky dataset. (a) shows the estimated velocity result. (b) is the positioning error. (c) is the positioning plot and sky-plot.
+(d) is the CDF of  horizontal velocity error of LS and WLS. (e) CDF of positioning error of LS and WLS. 
+
+ ![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/4.2.jpg)  
+ 
+Fig.4.2 is the result of urban. (a) shows the estimated velocity result. (b) is the positioning error. (c) is the positioning plot and sky-plot.
+(d) is the CDF of positioning error of LS and WLS. 
+
+The difference between WLS and LS is not obvious enough. The difference between WLS and LS is not obvious enough. The ninetieth of the horizontal positioning accuracy is about 100 meters.
+The ninetieth of the horizontal positioning accuracy is about 10 meters.By conparison, in the urban area, the positioning accuracy is obvious worse than open-sky area. 
+ 
+
 
 ---
 
