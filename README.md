@@ -242,9 +242,9 @@ Fig.4.2 is the result of urban. (a) shows the estimated velocity result. (b) is 
 (d) is the CDF of positioning error of LS and WLS. 
 
 The difference between WLS and LS is not obvious enough. The difference between WLS and LS is not obvious enough. The ninetieth of the horizontal positioning accuracy is about 100 meters.
-The ninetieth of the horizontal positioning accuracy is about 10 meters.By conparison, in the urban area, the positioning accuracy is obvious worse than open-sky area. 
+The ninetieth of the horizontal positioning accuracy is about 10 meters. By conparison, in the urban area, the positioning accuracy is obvious worse than open-sky area. 
  
-
+***We noted that the positioning result of WLS has no difference compared to the result of LS in urban area. This is because that only four satellite are tracked, in the WLS, if the dimension of the states (4 dimensions in GNSS positioning, X,Y,Z,t) eqauls the number of the observation. The weight matrix has no influence to the result. Four observations - four variables have only one solution, regardless of weights.***
 
 ---
 
