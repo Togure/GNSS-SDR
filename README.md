@@ -251,14 +251,32 @@ The ninetieth of the horizontal positioning accuracy is about 10 meters. By conp
 ## Task 5 – Kalman Filter-Based Positioning
 **Objective**: Develop an Extended Kalman Filter (EKF) using pseudorange and Doppler measurements to estimate the user's position and velocity.
 
-**Steps**:
-1. Implement the EKF algorithm.
-2. Estimate the user's position and velocity.
+
+**Step 1: Acquire velocity by Doppler frequency**
+
+The Doppler effect refers to the change in frequency of a signal due to the relative motion between the satellite (signal source) and the user (receiver). The frequency increases when the user moves toward the satellite and decreases when moving away.  Satellites transmit signals at a known frequency. The user's receiver detects a frequency shift caused by the Doppler effect. The difference between the transmitted and received frequencies is the Doppler shift.
+ Use the formula to calculate the relative velocity between the user and the satellite:  
+ ```math
+   
+   v = \frac{\Delta f \cdot c}{f_0}
+   
+```  
+   Where:  
+   - $\Delta f$ is the Doppler shift,  
+   - $c$ is the speed of light,  
+   - $f_0$ is the original frequency of the satellite signal.
+
+
+**Step 2: Estimate user's position by EKF**
+To calculate the user's position using satellite pseudorange and Doppler-derived velocity based on the Extended Kalman Filter (EKF), the process begins by utilizing pseudorange measurements, which indicate the distance between the user and the satellites, and Doppler shift measurements, which reflect the user's velocity relative to the satellites. The EKF iteratively updates the state vector, comprising the user's position and velocity, using the observation vector of pseudorange and Doppler data. During the prediction phase, the current state is forecasted based on the previous state and the system model. In the update phase, the predicted values are compared with actual observations, and the state estimate is refined using the Kalman gain, ultimately yielding the user's position and velocity. The EKF is adept at handling nonlinear system noise, making it suitable for positioning in dynamic environments.
 
 **Results**:
-- EKF-based position and velocity plots (insert image here).
+Fig.5.1 is the result in open sky area database. Fig.5.2 is the cdf of the positioning error in open sky area database. Compared to the result in Task 4, the positioning result has been improved.
+ ![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/5.1.jpg)  
+ ![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/5.2.jpg)  
 
----
-
+ Fig.5.3 is the result in urban area database. Fig.5.4 is the cdf of the positioning error in urban area database. Compared to the result in Task 4, the positioning result has been improved.
+ ![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/5.3.jpg)  
+ ![.](https://github.com/Togure/GNSS-SDR/blob/main/figues/5.4.jpg)  
 ## Conclusion
 Summarize the key findings and results of the assignment. Discuss the impact of different environments (open-sky vs. urban) on GNSS signal processing, particularly the effects of multipath and NLOS on positioning accuracy.
